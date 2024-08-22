@@ -1,0 +1,75 @@
+version: "3.1"
+actions:
+  - check_order_status
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+
+slots:
+  email:
+    type: text
+    mappings:
+      - type: from_llm
+  orderNumber:
+    type: text
+    mappings:
+      - type: from_llm
+  final_confirmation:
+    type: bool
+    mappings:
+      - type: from_llm
+  status:
+    type: text
+    mappings:
+      - type: custom
+  order_found:
+    type: bool
+    mappings:
+      - type: custom
+
+responses:
+  utter_ask_email:
+    - text: "What is your email?"
+
+  utter_ask_orderNumber:
+    - text: "What is the order number?"
+
+  utter_ask_final_confirmation:
+    - text: "Please confirm: you email is {email} and order number {orderNumber}?"
+
+  utter_transfer_cancelled:
+    - text: "We couldn't find your order."
+
+  utter_order_not_found:
+    - text: "We couldn't find your order."
+
+  utter_transfer_complete:
+    - text: "The status of your order {orderNumber} is {status}."
+
+  utter_greet:
+    - text: "Hey! How are you?"
+
+  utter_cheer_up:
+    - text: "Here is something to cheer you up:"
+      image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+    - text: "Did that help you?"
+
+  utter_happy:
+    - text: "Great, carry on!"
+
+  utter_goodbye:
+    - text: "Bye"
+
+  utter_iamabot:
+    - text: "I am a bot, powered by Rasa."
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

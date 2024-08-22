@@ -1,0 +1,27 @@
+flows:
+  check_order_status:
+    description: This flow lets users to check their order status.
+    steps:
+      - collect: email
+        description: the email used to made the order purchase
+      - collect: orderNumber
+        description: the order number given by email to the customer
+      - collect: final_confirmation
+        next:
+          - if: not slots.final_confirmation
+            then:
+              - action: utter_transfer_cancelled
+                next: END
+          - else: check_order_status
+      - action: check_order_status
+        id: check_order_status
+        next:
+          - if: not slots.order_found
+            then:
+              - action: utter_order_not_found
+                next: END
+          - else: give_order_status
+      - action: utter_transfer_complete
+        id: give_order_status
+
+
